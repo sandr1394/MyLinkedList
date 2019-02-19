@@ -2,29 +2,7 @@ package com.java.lists.ArrayList;
 
 import java.util.Iterator;
 
-/**
- * В данном пакете нужно написать свою реализацию LinkedList
- * Немного упрощенную
- * В этом классе будет пример ячейки списка (ноды) используя этот класс, нужно сделать реализацию списка
- * <p>
- * Список должен уметь:
- * Вернуть первый элемент
- * Вернуть последний элемент
- * Добавить новый элемент в конец списа (просто операция add)
- * Добавить элемент в начало списка
- * Добавить элемент в конец списка
- * Удалить элемент по индексу
- * Удалить элемент по значению (в этом и предыдущем нужно перегрузить метод удаления)
- * Вернуть длину списка
- * <p>
- * <p>
- * ***(Со зведочкой) реализовать возможность прохождения итератором по списку
- * <p>
- * Далее методов main не будет, на каждое задание нужно писать тесты, проверяющие его, пример теста лежит в
- * одноименном пакете в папке test
- * <p>
- * Гуглить реализацию нельзя! Только в полном отчаянии. Можно бесконечно читать про листы, заглядывать в LinkedList в jdk.
- */
+
 public class MyLinkedList<Element> implements Iterable {
 
     private Node firstNode;
@@ -106,7 +84,7 @@ public class MyLinkedList<Element> implements Iterable {
     public Element getFirstElement() {
 
         Node fe = firstNode;
-        Element firste =  (Element)fe.getNextElement().currentElement;
+        Element firste = (Element) fe.getNextElement().currentElement;
         return firste;
         // return (Element) getFirstNode().getNextElement().getCurrentElement();
     }
@@ -118,21 +96,20 @@ public class MyLinkedList<Element> implements Iterable {
     }
 
 
-    public Element getByIndex(Integer index){
+    public Element get(int index) {
 
-        Integer countIndex=0;
-        Element el = null;
+        int countIndex = 0;
         for (Node<Element> x = firstNode; x != null; x = x.nextElement) {
 //            if (x.currentElement == null) {
 //                x = x.nextElement;
 //            }
 
-            if(countIndex==index){
-                el = x.getCurrentElement();
+            if (countIndex == index) {
+                return x.getCurrentElement();
             }
             countIndex++;
         }
-        return el;
+        throw new IndexOutOfBoundsException();
     }
 
     public int getSize() {
@@ -141,13 +118,12 @@ public class MyLinkedList<Element> implements Iterable {
 
     public void removeByValue(Element value) {
 
-        for (Node<Element> x = firstNode; x != null; x = x.nextElement)
-        {
-            if(x.currentElement == null){
+        for (Node<Element> x = firstNode; x != null; x = x.nextElement) {
+            if (x.currentElement == null) {
                 x = x.nextElement;
             }
 
-            if(x.currentElement.equals(value)){
+            if (x.currentElement.equals(value)) {
 
                 Node<Element> nextEl = x.nextElement;
                 Node<Element> prevEl = x.previousElement;
@@ -167,13 +143,12 @@ public class MyLinkedList<Element> implements Iterable {
 
         Integer indexCount = 1;
 
-        for (Node<Element> x = firstNode; x != null; x = x.nextElement)
-        {
-            if(x.currentElement == null){
+        for (Node<Element> x = firstNode; x != null; x = x.nextElement) {
+            if (x.currentElement == null) {
                 x = x.nextElement;
             }
 
-            if(indexCount == index){
+            if (indexCount == index) {
 
                 Node<Element> nextEl = x.nextElement;
                 Node<Element> prevEl = x.previousElement;
@@ -191,9 +166,29 @@ public class MyLinkedList<Element> implements Iterable {
 
     }
 
-    @Override
-    public Iterator iterator() {
-        return null;
-        //Реализовать здесь свой итератор
+    public Iterator<Element> iterator() {
+        return new Iterator<Element>() {
+
+            Node current = firstNode.nextElement;
+
+
+            @Override
+            public boolean hasNext() {
+                if (current.currentElement != null) {
+                    return current != null;
+                } else
+                    return false;
+            }
+
+            @Override
+            public Element next() {
+                if (hasNext()) {
+                    Element data = (Element) current.currentElement;
+                    current = current.nextElement;
+                    return data;
+                }
+                return null;
+            }
+        };
     }
 }

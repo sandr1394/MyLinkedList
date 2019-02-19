@@ -4,8 +4,9 @@ import org.junit.jupiter.api.Test;
 
 import com.java.lists.ArrayList.MyLinkedList;
 
-public class MyLinkedListTest {
+import java.util.Iterator;
 
+public class MyLinkedListTest {
 
     @Test
      void getSizeTest(){
@@ -54,7 +55,7 @@ public class MyLinkedListTest {
         list.addLast(4);
         list.addLast(5);
 
-        Assertions.assertEquals(list.getByIndex(4), 4);
+        Assertions.assertEquals(list.get(4), 4);
     }
 
     @Test
@@ -68,6 +69,13 @@ public class MyLinkedListTest {
 
         list.removeByValue(3);
 
+        Iterator it = list.iterator();
+
+        while(it.hasNext()){
+
+            System.out.println(it.next());
+        }
+
 
 
     }
@@ -80,7 +88,32 @@ public class MyLinkedListTest {
         list.addLast(4);
         list.addLast(5);
 
-        list.removeByIndex(3);
+        list.removeByIndex(4);
+
+        Iterator it = list.iterator();
+
+        while(it.hasNext()){
+
+            System.out.println(it.next());
+        }
+    }
+
+    @Test
+    void printList(){
+        MyLinkedList<Integer> list = new MyLinkedList<>();
+        list.addFirst(1);
+        list.addLast(2);
+        list.addLast(3);
+        list.addLast(4);
+        list.addLast(5);
+
+        Iterator it = list.iterator();
+
+        while(it.hasNext()){
+
+            System.out.println(it.next());
+        }
+
     }
 
 }
